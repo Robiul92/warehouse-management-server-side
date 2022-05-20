@@ -56,6 +56,8 @@ async function run (){
     res.send(result);
   });
 
+  // post update
+
   app.put('/inventory/:id',  async(req, res)=>{
     const id = req.params.id;
     console.log({id});
