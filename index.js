@@ -36,9 +36,11 @@ async function run (){
 
     app.get('/inventory/:id', async(req, res) =>{
       const id = req.params.id;
+      
       const query={_id: ObjectId(id)};
-      const inventory = await inventoryCollection.findOne(query);
-      res.send(inventory);
+      const result = await inventoryCollection.findOne(query);
+      res.send(result);
+      console.log(req.params.body);
   });
    
   app.post('/inventory', async(req, res)=>{
@@ -53,6 +55,22 @@ async function run (){
     const result = await inventoryCollection.deleteOne(query);
     res.send(result);
   });
+
+  app.put('/inventory/:id',  async(req, res)=>{
+    const id = req.params.id;
+    console.log({id});
+    const updatedUser = req.body;
+    const filter ={_id: ObjectId(id)};
+    const options = { upsert: true};
+    const upDatedDoc = {
+      $set: {
+        quantity: updatedUser.quantity
+      }
+    };
+    const result = await inventoryCollection.updateOne(filter, upDatedDoc, options);
+    res.send(result);
+
+  })
 
   }
 
